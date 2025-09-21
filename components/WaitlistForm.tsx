@@ -7,9 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
-import { Loader2 } from "lucide-react"
+import { Loader2, Mail, User, Building, Briefcase } from "lucide-react"
 
 interface FormData {
   name: string
@@ -142,88 +141,101 @@ export function WaitlistForm() {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl text-center">Rejoignez notre liste d'attente</CardTitle>
-        <CardDescription className="text-center">
-          Remplissez ce formulaire pour être parmi les premiers informés
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nom complet *</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Votre nom complet"
-                value={formData.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                required
-                className="w-full"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="businessName">Nom du commerce *</Label>
-              <Input
-                id="businessName"
-                type="text"
-                placeholder="Nom de votre entreprise"
-                value={formData.businessName}
-                onChange={(e) => handleInputChange("businessName", e.target.value)}
-                required
-                className="w-full"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="industry">Secteur d'activité *</Label>
-            <Select value={formData.industry} onValueChange={(value) => handleInputChange("industry", value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Sélectionnez votre secteur" />
-              </SelectTrigger>
-              <SelectContent>
-                {industries.map((industry) => (
-                  <SelectItem key={industry} value={industry}>
-                    {industry}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email">Adresse e-mail *</Label>
+    <div className="w-full">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="space-y-3">
+            <Label htmlFor="name" className="text-base font-medium flex items-center gap-2">
+              <User className="w-4 h-4 text-primary" />
+              Nom complet *
+            </Label>
             <Input
-              id="email"
-              type="email"
-              placeholder="votre@email.com"
-              value={formData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
+              id="name"
+              type="text"
+              placeholder="Votre nom complet"
+              value={formData.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
               required
-              className="w-full"
+              className="h-12 text-base border-2 border-border/50 focus:border-primary transition-colors rounded-xl"
             />
           </div>
 
-          <div className="space-y-4">
-            <Button type="submit" disabled={isSubmitting} className="w-full bg-secondary hover:bg-secondary/90">
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Inscription en cours...
-                </>
-              ) : (
-                "Rejoindre la liste d'attente"
-              )}
-            </Button>
-
-            <p className="text-sm text-muted-foreground text-center">Aucun spam, seulement les infos utiles.</p>
+          <div className="space-y-3">
+            <Label htmlFor="businessName" className="text-base font-medium flex items-center gap-2">
+              <Building className="w-4 h-4 text-primary" />
+              Nom du commerce *
+            </Label>
+            <Input
+              id="businessName"
+              type="text"
+              placeholder="Nom de votre entreprise"
+              value={formData.businessName}
+              onChange={(e) => handleInputChange("businessName", e.target.value)}
+              required
+              className="h-12 text-base border-2 border-border/50 focus:border-primary transition-colors rounded-xl"
+            />
           </div>
-        </form>
-      </CardContent>
-    </Card>
+        </div>
+
+        <div className="space-y-3">
+          <Label htmlFor="industry" className="text-base font-medium flex items-center gap-2">
+            <Briefcase className="w-4 h-4 text-primary" />
+            Secteur d'activité *
+          </Label>
+          <Select value={formData.industry} onValueChange={(value) => handleInputChange("industry", value)}>
+            <SelectTrigger className="h-12 text-base border-2 border-border/50 focus:border-primary transition-colors rounded-xl">
+              <SelectValue placeholder="Sélectionnez votre secteur" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl">
+              {industries.map((industry) => (
+                <SelectItem key={industry} value={industry} className="text-base">
+                  {industry}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-3">
+          <Label htmlFor="email" className="text-base font-medium flex items-center gap-2">
+            <Mail className="w-4 h-4 text-primary" />
+            Adresse e-mail *
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="votre@email.com"
+            value={formData.email}
+            onChange={(e) => handleInputChange("email", e.target.value)}
+            required
+            className="h-12 text-base border-2 border-border/50 focus:border-primary transition-colors rounded-xl"
+          />
+        </div>
+
+        <div className="space-y-6 pt-4">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full h-14 text-lg font-semibold bg-primary hover:bg-primary/90 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                Inscription en cours...
+              </>
+            ) : (
+              "Rejoindre la liste d'attente"
+            )}
+          </Button>
+
+          <div className="text-center space-y-2">
+            <p className="text-sm text-muted-foreground">✨ Aucun spam, seulement les informations importantes</p>
+            <p className="text-xs text-muted-foreground">
+              Vous recevrez un email de confirmation dans les prochaines minutes
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
   )
 }
